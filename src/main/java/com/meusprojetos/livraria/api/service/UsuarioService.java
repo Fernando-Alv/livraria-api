@@ -1,17 +1,18 @@
 package com.meusprojetos.livraria.api.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meusprojetos.livraria.api.entity.Usuario;
 import com.meusprojetos.livraria.api.exception.UsuarioNaoEncontradoException;
 import com.meusprojetos.livraria.api.repository.UsuarioRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class UsuarioService {
 
-	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
 	public Usuario inserirUsuario(Usuario usuario) {
