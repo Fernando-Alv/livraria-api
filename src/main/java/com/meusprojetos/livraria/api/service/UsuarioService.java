@@ -37,16 +37,14 @@ public class UsuarioService {
 		usuarioExistente.setEmail(usuarioAtualizado.getEmail());
 		usuarioExistente.setCpf(usuarioAtualizado.getCpf());
 		
-		return usuarioRepository.save(usuarioExistente);
-		
+		return usuarioRepository.save(usuarioExistente);		
 	}
 	
-	public Usuario deletarUsuario(Long id) {
+	public void deletarUsuario(Long id) {
 		
 		Usuario usuario = usuarioRepository.findById(id)
 				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado com ID: " + id));
 		
-		usuarioRepository.delete(usuario);
-	    return usuario;
+		usuarioRepository.delete(usuario);    
 	}
 }
