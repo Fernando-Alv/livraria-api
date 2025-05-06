@@ -2,7 +2,6 @@ package com.meusprojetos.livraria.api.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-
 import com.meusprojetos.livraria.api.entity.Usuario;
 import com.meusprojetos.livraria.api.exception.UsuarioNaoEncontradoException;
 import com.meusprojetos.livraria.api.repository.UsuarioRepository;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UsuarioService {
 
-	private UsuarioRepository usuarioRepository;
+	private final UsuarioRepository usuarioRepository;
 	
 	public Usuario inserirUsuario(Usuario usuario) {
 		return usuarioRepository.save(usuario);
