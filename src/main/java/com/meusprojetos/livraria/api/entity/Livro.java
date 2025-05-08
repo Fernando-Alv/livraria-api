@@ -20,11 +20,11 @@ public class Livro {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	String titulo;
-	String autor;
-	Integer anoPublicacao;
-	String isbn;
-	boolean disponivel;
+	private Long id;
+	private String titulo;
+	private String autor;
+	private Integer anoPublicacao;
+	private String isbn;
+	private boolean disponivel;
 	
 }
