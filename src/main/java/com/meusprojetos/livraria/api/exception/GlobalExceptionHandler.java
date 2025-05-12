@@ -12,13 +12,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	
-	@ExceptionHandler(UsuarioNaoEncontradoException.class)
-	public ResponseEntity<ErrorResponse> handleValidacao(UsuarioNaoEncontradoException ex, HttpServletRequest request) {
+	@ExceptionHandler(RecursoNaoEncontradoException.class)
+	public ResponseEntity<ErrorResponse> handleValidacao(RecursoNaoEncontradoException ex, HttpServletRequest request) {
 		
 		ErrorResponse response = new ErrorResponse();
 			response.setTimestamp(LocalDateTime.now());
 			response.setStatus(HttpStatus.NOT_FOUND.value());
-			response.setError("Usuário não encontrado");
+			response.setError("Recurso não encontrado");
 			response.setMessage(ex.getMessage());
 			response.setPath(request.getRequestURI());
 			

@@ -3,7 +3,7 @@ package com.meusprojetos.livraria.api.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.meusprojetos.livraria.api.entity.Usuario;
-import com.meusprojetos.livraria.api.exception.UsuarioNaoEncontradoException;
+import com.meusprojetos.livraria.api.exception.RecursoNaoEncontradoException;
 import com.meusprojetos.livraria.api.repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,13 @@ public class UsuarioService {
 	public Usuario consultarUsuarioPorId(Long id) {
 		
 		return usuarioRepository.findById(id)
-				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado com ID: " + id));
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + id));
 	}
 	
 	public Usuario atualizarUsuario(Long id, Usuario usuarioAtualizado) {
 		
 		Usuario usuarioExistente = usuarioRepository.findById(id)
-				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado com ID: " + id));
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + id));
 		
 		usuarioExistente.setNome(usuarioAtualizado.getNome());
 		usuarioExistente.setEmail(usuarioAtualizado.getEmail());
@@ -43,7 +43,7 @@ public class UsuarioService {
 	public void deletarUsuario(Long id) {
 		
 		Usuario usuario = usuarioRepository.findById(id)
-				.orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado com ID: " + id));
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + id));
 		
 		usuarioRepository.delete(usuario);    
 	}
