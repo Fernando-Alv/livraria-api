@@ -37,4 +37,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
+
+	@ExceptionHandler(LivroJaDevolvidoException.class)
+	public ResponseEntity<ErrorResponse> handleLivroJaDevolvido(LivroJaDevolvidoException ex, HttpServletRequest request) {
+
+		ErrorResponse response = new ErrorResponse();
+		response.setTimestamp(LocalDateTime.now());
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		response.setError("Livro já devolvido");
+		response.setMessage(ex.getMessage());
+		response.setPath(request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
 }
