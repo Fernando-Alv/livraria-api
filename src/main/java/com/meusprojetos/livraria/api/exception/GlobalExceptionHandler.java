@@ -24,4 +24,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
+
+	@ExceptionHandler(LivroIndisponivelException.class)
+	public ResponseEntity<ErrorResponse> handleIndisponivel(LivroIndisponivelException ex, HttpServletRequest request) {
+
+		ErrorResponse response = new ErrorResponse();
+		response.setTimestamp(LocalDateTime.now());
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		response.setError("Livro indisponível");
+		response.setMessage(ex.getMessage());
+		response.setPath(request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
 }
