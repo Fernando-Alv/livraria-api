@@ -2,6 +2,8 @@ package com.meusprojetos.livraria.api.controller;
 
 import java.util.List;
 
+import com.meusprojetos.livraria.api.dto.UsuarioEmprestimoResponseDTO;
+import com.meusprojetos.livraria.api.dto.UsuarioResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,17 +28,17 @@ public class UsuarioController {
 	private final UsuarioService usuarioService;
 	
 	@GetMapping
-    public ResponseEntity<List<Usuario>> consultarTodos() {
-        List<Usuario> usuarios = usuarioService.consultarUsuarios();
+    public ResponseEntity<List<UsuarioResponseDTO>> consultarTodos() {
+        List<UsuarioResponseDTO> usuariosResponseDTO = usuarioService.consultarUsuarios();
         
-        return ResponseEntity.ok(usuarios);
+        return ResponseEntity.ok(usuariosResponseDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> consultarPorId(@PathVariable Long id) {
-        Usuario usuario = usuarioService.consultarUsuarioPorId(id);
+    public ResponseEntity<UsuarioEmprestimoResponseDTO> consultarPorId(@PathVariable Long id) {
+        UsuarioEmprestimoResponseDTO usuarioResponseDTO = usuarioService.consultarUsuarioPorId(id);
         
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(usuarioResponseDTO);
         
     }
 	@PostMapping
