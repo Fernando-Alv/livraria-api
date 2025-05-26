@@ -3,8 +3,13 @@ package com.meusprojetos.livraria.api.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.meusprojetos.livraria.api.dto.EmprestimoDTO;
+import com.meusprojetos.livraria.api.dto.EmprestimoResponseDTO;
+import com.meusprojetos.livraria.api.entity.Usuario;
 import com.meusprojetos.livraria.api.exception.LivroIndisponivelException;
 import com.meusprojetos.livraria.api.exception.LivroJaDevolvidoException;
+import com.meusprojetos.livraria.api.mapstruct.EmprestimoMapper;
+import com.meusprojetos.livraria.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import com.meusprojetos.livraria.api.entity.Emprestimo;
@@ -22,36 +27,60 @@ public class EmprestimoService {
 	private final EmprestimoRepository emprestimoRepository;
 	
 	private final LivroRepository livroRepository;
-	
-	public Emprestimo realizarEmprestimo(Emprestimo emprestimo) {
-		Livro livro = emprestimo.getLivro();
-		
-		if(!livro.isDisponivel()) {
+
+	private final UsuarioRepository usuarioRepository;
+
+	private final EmprestimoMapper emprestimoMapper;
+
+	public EmprestimoResponseDTO realizarEmprestimo(EmprestimoDTO dto) {
+		Livro livro = livroRepository.findById(dto.idLivro())
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Livro não encontrado com ID: " + dto.idLivro()));
+
+		if (!livro.isDisponivel()) {
 			throw new LivroIndisponivelException("Livro indisponível para empréstimo");
 		}
+
+		Usuario usuario = usuarioRepository.findById(dto.idUsuario())
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + dto.idUsuario()));
+
 		livro.setDisponivel(false);
 		livroRepository.save(livro);
-		
-		return emprestimoRepository.save(emprestimo);
+
+		Emprestimo emprestimo = new Emprestimo();
+		emprestimo.setLivro(livro);
+		emprestimo.setUsuario(usuario);
+		emprestimo.setDataEmprestimo(LocalDate.now());
+
+		Emprestimo salvo = emprestimoRepository.save(emprestimo);
+
+		return emprestimoMapper.paraEmprestimoResponseDTO(emprestimo);
+	}
+
+	public List<EmprestimoResponseDTO> consultarEmprestimos() {
+		List<Emprestimo> emprestimos = emprestimoRepository.findAll();
+
+		return emprestimoMapper.paraListaEmprestimosResponseDTO(emprestimos);
 	}
 	
-	public List<Emprestimo> consultarEmprestimos() {
-		return emprestimoRepository.findAll();
-	}
-	
-	public Emprestimo consultarEmprestimoPorId(Long id) {
-		return emprestimoRepository.findById(id)
+	public EmprestimoResponseDTO consultarEmprestimoPorId(Long id) {
+
+		Emprestimo emprestimo = emprestimoRepository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Empréstimo não encontrado com ID: " + id));
+
+		return emprestimoMapper.paraEmprestimoResponseDTO(emprestimo);
 	}
 	
-	public Emprestimo realizarDevolucao(Long id) {
-		Emprestimo emprestimo = consultarEmprestimoPorId(id);
+	public EmprestimoResponseDTO realizarDevolucao(Long id) {
+		Emprestimo emprestimo = emprestimoRepository.findById(id)
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Empréstimo não encontrado com ID: " + id));
 
 		if(!emprestimo.getLivro().isDisponivel()) {
 			emprestimo.setDataDevolucao(LocalDate.now());
 			emprestimo.getLivro().setDisponivel(true);
 			livroRepository.save(emprestimo.getLivro());
-			return emprestimoRepository.save(emprestimo);
+			emprestimoRepository.save(emprestimo);
+
+			return emprestimoMapper.paraEmprestimoResponseDTO(emprestimo);
 		}
 		throw new LivroJaDevolvidoException("Esse livro já foi devolvido.");
 	}
