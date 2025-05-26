@@ -2,6 +2,8 @@ package com.meusprojetos.livraria.api.controller;
 
 import java.util.List;
 
+import com.meusprojetos.livraria.api.dto.EmprestimoDTO;
+import com.meusprojetos.livraria.api.dto.EmprestimoResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +21,29 @@ public class EmprestimoController {
 	private final EmprestimoService emprestimoService;
 	
 	@GetMapping
-    public ResponseEntity<List<Emprestimo>> consultarTodos() {
-        List<Emprestimo> emprestimos = emprestimoService.consultarEmprestimos();
+    public ResponseEntity<List<EmprestimoResponseDTO>> consultarTodos() {
+        List<EmprestimoResponseDTO> emprestimos = emprestimoService.consultarEmprestimos();
         
         return ResponseEntity.ok(emprestimos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Emprestimo> consultarPorId(@PathVariable Long id) {
-        Emprestimo emprestimo = emprestimoService.consultarEmprestimoPorId(id);
+    public ResponseEntity<EmprestimoResponseDTO> consultarPorId(@PathVariable Long id) {
+        EmprestimoResponseDTO emprestimo = emprestimoService.consultarEmprestimoPorId(id);
         
         return ResponseEntity.ok(emprestimo);
         
     }
-	@PostMapping
-	public ResponseEntity<Emprestimo> realizarEmprestimo(@RequestBody  Emprestimo emprestimo) {
-		Emprestimo novoEmprestimo = emprestimoService.realizarEmprestimo(emprestimo);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(novoEmprestimo);
-	}
+    @PostMapping
+    public ResponseEntity<EmprestimoResponseDTO> realizarEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
+        EmprestimoResponseDTO response = emprestimoService.realizarEmprestimo(emprestimoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
 
     @PutMapping("/{id}")
-    public ResponseEntity<Emprestimo> devolverLivro(@PathVariable Long id) {
-        Emprestimo devolvido = emprestimoService.realizarDevolucao(id);
+    public ResponseEntity<EmprestimoResponseDTO> devolverLivro(@PathVariable Long id) {
+        EmprestimoResponseDTO devolvido = emprestimoService.realizarDevolucao(id);
         return ResponseEntity.ok(devolvido);
     }
 }	
