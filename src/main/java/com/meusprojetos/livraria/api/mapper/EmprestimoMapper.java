@@ -1,4 +1,4 @@
-package com.meusprojetos.livraria.api.mapstruct;
+package com.meusprojetos.livraria.api.mapper;
 
 import com.meusprojetos.livraria.api.dto.EmprestimoResponseDTO;
 import com.meusprojetos.livraria.api.dto.EmprestimoResumoDTO;

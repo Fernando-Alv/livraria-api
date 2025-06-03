@@ -8,7 +8,7 @@ import com.meusprojetos.livraria.api.dto.EmprestimoResponseDTO;
 import com.meusprojetos.livraria.api.entity.Usuario;
 import com.meusprojetos.livraria.api.exception.LivroIndisponivelException;
 import com.meusprojetos.livraria.api.exception.LivroJaDevolvidoException;
-import com.meusprojetos.livraria.api.mapstruct.EmprestimoMapper;
+import com.meusprojetos.livraria.api.mapper.EmprestimoMapper;
 import com.meusprojetos.livraria.api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 

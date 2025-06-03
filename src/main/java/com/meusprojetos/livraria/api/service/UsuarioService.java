@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.meusprojetos.livraria.api.dto.UsuarioEmprestimoResponseDTO;
 import com.meusprojetos.livraria.api.dto.UsuarioResponseDTO;
-import com.meusprojetos.livraria.api.mapstruct.UsuarioMapper;
+import com.meusprojetos.livraria.api.mapper.UsuarioMapper;
 import org.springframework.stereotype.Service;
 import com.meusprojetos.livraria.api.entity.Usuario;
 import com.meusprojetos.livraria.api.exception.RecursoNaoEncontradoException;
